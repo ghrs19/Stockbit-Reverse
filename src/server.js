@@ -129,27 +129,32 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
-// ─── Start Server ───────────────────────────────────────────────
-app.listen(PORT, async () => {
-  console.log('');
-  console.log('╔══════════════════════════════════════════════════╗');
-  console.log('║   📊 Stockbit Broker Summary Viewer             ║');
-  console.log(`║   🌐 http://localhost:${PORT}                       ║`);
-  console.log('║                                                  ║');
+// ─── Start Server (Local) ───────────────────────────────────────
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, async () => {
+    console.log('');
+    console.log('╔══════════════════════════════════════════════════╗');
+    console.log('║   📊 Stockbit Broker Summary Viewer             ║');
+    console.log(`║   🌐 http://localhost:${PORT}                       ║`);
+    console.log('║                                                  ║');
 
-  // Auto-login on startup
-  const username = process.env.STOCKBIT_USERNAME;
-  const password = process.env.STOCKBIT_PASSWORD;
-  const playerId = process.env.STOCKBIT_PLAYER_ID;
+    // Auto-login on startup
+    const username = process.env.STOCKBIT_USERNAME;
+    const password = process.env.STOCKBIT_PASSWORD;
+    const playerId = process.env.STOCKBIT_PLAYER_ID;
 
-  try {
-    await auth.ensureAuthenticated(username, password, playerId);
-    console.log('║   ✅ Autentikasi Berhasil!                      ║');
-  } catch (err) {
-    console.log('║   ❌ Autentikasi Gagal:                         ║');
-    console.log(`║      ${err.message.substring(0, 40).padEnd(41)} ║`);
-  }
+    try {
+      await auth.ensureAuthenticated(username, password, playerId);
+      console.log('║   ✅ Autentikasi Berhasil!                      ║');
+    } catch (err) {
+      console.log('║   ❌ Autentikasi Gagal:                         ║');
+      console.log(`║      ${err.message.substring(0, 40).padEnd(41)} ║`);
+    }
 
-  console.log('╚══════════════════════════════════════════════════╝');
-  console.log('');
-});
+    console.log('╚══════════════════════════════════════════════════╝');
+    console.log('');
+  });
+}
+
+// Ekspor app untuk Vercel Serverless Function
+module.exports = app;
