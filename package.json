@@ -1,0 +1,24 @@
+{
+  "name": "stockextends",
+  "version": "1.0.0",
+  "description": "Stockbit Broker Summary Viewer - Display broker summary data for Indonesian stocks",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "cli": "node src/cli.js"
+  },
+  "keywords": [
+    "stockbit",
+    "broker-summary",
+    "idx",
+    "saham"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "node-fetch": "^2.7.0"
+  }
+}
